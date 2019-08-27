@@ -1,38 +1,69 @@
-// var express = require('express');
-// var app = express();
-// var bodyParser = require('body-parser');
+// const express = require('express')
+// const app = express()
+// const port = process.env.PORT
+// var bodyParser = require('body-parser')
 
+// app.use(bodyParser.json())
 
-// app.use(bodyParser.json());
-// app.get('/', function (req, res) {
-//   res.send('Hello World!');
-// });
-// app.get('/move', function (req, res) {
-//   res.send('MOVE MF');
-// });
+// app.get('/', (req, res) => res.send('Hello World!'))
+// app.get('/move', (req, res) => res.send('this is an awesome move'))
 
-// app.post('/start', (req, res)=>{
-//   console.log('route was hit')
+// app.post('/start', (req, res) => {
+//   console.log('route was hit', req.body)
 //   res.send('hi')
-// });
 
-// app.listen(3005, function () {
-//   console.log('Example app listening on port 3005!');
-// });
+// })
+
+// app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
-const port = process.env.PORT
-var bodyParser = require('body-parser')
+
+const snakeStats = {
+  color: '#c0ffee',
+  name: 'starter-snek',
+  head_url: 'https://res.cloudinary.com/dk-find-out/image/upload/q_80,w_1920,f_auto/DCTM_Penguin_UK_DK_AL629526_pkusmj.jpg',
+  taunt: 'heya',
+  head_type: 'pixel',
+  tail_type: 'pixel',
+  secondary_color: '#badca7'
+}
 
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => res.send('Hello World!'))
-app.get('/move', (req, res) => res.send('this is an awesome move'))
+app.get('/', (req, res) => res.json(snakeStats))
 
 app.post('/start', (req, res) => {
-  console.log('route was hit', req.body)
-  res.send('hi')
-
+  res.json(snakeStats)
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.post('/move', (req, res) => {
+  const gameState = req.body
+  const mySnake = gameState.you
+
+  const snakeHead = mySnake.body.data[0]
+  const food = gameState.food.data[0]
+
+  if (snakeHead.x - food.x === 0) {
+    if (snakeHead.y - food.y > 0) {
+      move = "up"
+    } else {
+      move = "down"
+    }
+  } else {
+    if (snakeHead.x - food.x > 0) {
+      move = "left"
+    } else {
+      move = "right"
+    }
+  }
+
+  res.json({
+    'move': move,
+    "taunt": "Hi"
+  })
+})
+
+const PORT = process.env.PORT
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
