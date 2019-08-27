@@ -22,7 +22,7 @@ const app = express()
 
 const snakeStats = {
   color: '#c0ffee',
-  name: 'starter-snek',
+  name: 'stupid-snake',
   head_url: 'https://res.cloudinary.com/dk-find-out/image/upload/q_80,w_1920,f_auto/DCTM_Penguin_UK_DK_AL629526_pkusmj.jpg',
   taunt: 'heya',
   head_type: 'pixel',
